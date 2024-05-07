@@ -1,0 +1,194 @@
+[gd_scene load_steps=26 format=3 uid="uid://dqt53biqgs6fm"]
+
+[ext_resource type="Texture2D" uid="uid://iavngqmtsa7d" path="res://icon.svg" id="1_rojo0"]
+[ext_resource type="Shader" path="res://shaders/scrolling_uv.gdshader" id="2_25wc0"]
+[ext_resource type="Shader" path="res://shaders/texture_test.gdshader" id="3_6lncx"]
+[ext_resource type="Shader" path="res://shaders/water_shader.gdshader" id="4_reqxn"]
+[ext_resource type="Script" path="res://scripts/scrolling_water.gd" id="5_2oy46"]
+[ext_resource type="Shader" path="res://shaders/stained_glass.gdshader" id="5_dy2at"]
+[ext_resource type="Shader" path="res://shaders/water_better.gdshader" id="5_tc38y"]
+[ext_resource type="Shader" path="res://shaders/mouse_shader.gdshader" id="7_0ffg3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_elth1"]
+shader = ExtResource("2_25wc0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lmgup"]
+shader = ExtResource("3_6lncx")
+shader_parameter/mode = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r5rwv"]
+shader = ExtResource("3_6lncx")
+shader_parameter/mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wxpbx"]
+shader = ExtResource("3_6lncx")
+shader_parameter/mode = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o384n"]
+shader = ExtResource("3_6lncx")
+shader_parameter/mode = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o2vk7"]
+shader = ExtResource("4_reqxn")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_h2aw0"]
+noise_type = 2
+seed = -15
+frequency = 0.04
+fractal_type = 0
+domain_warp_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ig8qi"]
+width = 128
+height = 128
+generate_mipmaps = false
+seamless = true
+seamless_blend_skirt = 0.23
+noise = SubResource("FastNoiseLite_h2aw0")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w2g6q"]
+noise_type = 2
+seed = 75
+frequency = 0.033
+offset = Vector3(-14318.6, -14346.3, 0)
+fractal_type = 0
+cellular_distance_function = 1
+cellular_jitter = 0.5
+cellular_return_type = 6
+domain_warp_enabled = true
+domain_warp_type = 2
+domain_warp_amplitude = 10.0
+domain_warp_frequency = 0.059797
+domain_warp_fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b1dx2"]
+width = 128
+height = 128
+seamless_blend_skirt = 0.0
+noise = SubResource("FastNoiseLite_w2g6q")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a3uer"]
+shader = ExtResource("5_tc38y")
+shader_parameter/shadow_texture = SubResource("NoiseTexture2D_b1dx2")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dw5bw"]
+noise_type = 2
+frequency = 0.033
+offset = Vector3(-11023.8, -11049.8, 0)
+fractal_type = 0
+fractal_octaves = 2
+fractal_lacunarity = 0.025
+fractal_weighted_strength = 1.0
+cellular_distance_function = 1
+cellular_jitter = 0.5
+cellular_return_type = 6
+domain_warp_enabled = true
+domain_warp_type = 2
+domain_warp_amplitude = 10.0
+domain_warp_frequency = 0.059797
+domain_warp_fractal_type = 0
+domain_warp_fractal_octaves = 10
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_c2dry"]
+width = 128
+height = 128
+seamless_blend_skirt = 0.0
+noise = SubResource("FastNoiseLite_dw5bw")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pnyue"]
+shader = ExtResource("5_dy2at")
+shader_parameter/circle_radius = 0.5
+shader_parameter/shading_inset = 0.2
+shader_parameter/outline_inset = 0.016
+shader_parameter/outline_threshold = 0.0001
+shader_parameter/saturation = 1.0
+shader_parameter/value = 0.9
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_doei1"]
+noise_type = 2
+seed = 160
+frequency = 0.04
+fractal_type = 0
+cellular_jitter = 0.5
+cellular_return_type = 0
+domain_warp_amplitude = 1.0
+domain_warp_fractal_type = 2
+domain_warp_fractal_lacunarity = 5.31
+domain_warp_fractal_gain = -4.805
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_53ehe"]
+width = 128
+height = 128
+generate_mipmaps = false
+noise = SubResource("FastNoiseLite_doei1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6kkr3"]
+shader = ExtResource("7_0ffg3")
+shader_parameter/radius = 0.4
+shader_parameter/alpha = 1.0
+
+[node name="Main" type="CanvasLayer"]
+
+[node name="Base Sprite" type="Sprite2D" parent="."]
+position = Vector2(64, 64)
+texture = ExtResource("1_rojo0")
+
+[node name="Shader 1" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_elth1")
+position = Vector2(196, 64)
+texture = ExtResource("1_rojo0")
+
+[node name="Shader 2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_lmgup")
+position = Vector2(328, 64)
+texture = ExtResource("1_rojo0")
+
+[node name="Shader 3" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_r5rwv")
+position = Vector2(460, 64)
+texture = ExtResource("1_rojo0")
+
+[node name="Shader 4" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_wxpbx")
+position = Vector2(64, 196)
+texture = ExtResource("1_rojo0")
+
+[node name="Shader 5" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_o384n")
+position = Vector2(196, 196)
+texture = ExtResource("1_rojo0")
+
+[node name="Water Shader" type="Sprite2D" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_o2vk7")
+position = Vector2(328, 196)
+texture = SubResource("NoiseTexture2D_ig8qi")
+
+[node name="Water 2" type="Sprite2D" parent="."]
+texture_repeat = 3
+material = SubResource("ShaderMaterial_a3uer")
+position = Vector2(328, 328)
+texture = SubResource("NoiseTexture2D_c2dry")
+script = ExtResource("5_2oy46")
+animate = true
+scroll_speed = 20.0
+scroll_time = 1513.61
+textures = Array[Texture]([SubResource("NoiseTexture2D_c2dry"), SubResource("NoiseTexture2D_b1dx2")])
+
+[node name="Stained Glass" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_pnyue")
+position = Vector2(460, 196)
+texture = SubResource("NoiseTexture2D_53ehe")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 641.0
+offset_top = 120.0
+offset_right = 681.0
+offset_bottom = 143.0
+text = "Hi :)"
+
+[node name="Mouse Shader" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_6kkr3")
+position = Vector2(658, 130)
+scale = Vector2(2, 2)
+texture = ExtResource("1_rojo0")
